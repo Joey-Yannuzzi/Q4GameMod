@@ -2,6 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Game">
+<<<<<<< HEAD
       <UniqueIdentifier>{ae1115d6-1f59-443a-bce2-ad6d500f48ee}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\AI">
@@ -36,6 +37,42 @@
     </Filter>
     <Filter Include="Game\MP\Stats">
       <UniqueIdentifier>{df9481c5-f414-44de-b390-f1a3847da5f2}</UniqueIdentifier>
+=======
+      <UniqueIdentifier>{93eae3ac-2e72-4892-9787-e9b1c29ee2a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\AI">
+      <UniqueIdentifier>{f8ba0217-d87c-4211-bed7-574b50937f1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Anim">
+      <UniqueIdentifier>{7c5fc71a-9379-4904-ae0d-5d5e4f8fcb44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Client">
+      <UniqueIdentifier>{358c7816-79c2-42e7-b8c9-49262e5ae357}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\GameSys">
+      <UniqueIdentifier>{a370c8a8-57ff-4074-b379-502d7c9bad1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Physics">
+      <UniqueIdentifier>{4ed56863-fa38-4af0-8326-202cd3762d5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Player">
+      <UniqueIdentifier>{b4d23bd2-ac13-4637-b0c8-66810f9877fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Script">
+      <UniqueIdentifier>{10df03c0-fd9c-48c4-85ad-088209aa886b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Vehicle">
+      <UniqueIdentifier>{16258907-70af-472c-8c8f-4ce5530013a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Weapon">
+      <UniqueIdentifier>{cbfd170a-b9e7-42ea-b3bf-112517fe90a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\MP">
+      <UniqueIdentifier>{b1f0f16c-dd85-4cd1-81dd-4ea7267d0f83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\MP\Stats">
+      <UniqueIdentifier>{7833eb10-87be-4661-a18e-a84c5e813541}</UniqueIdentifier>
+>>>>>>> master
     </Filter>
   </ItemGroup>
   <ItemGroup>
