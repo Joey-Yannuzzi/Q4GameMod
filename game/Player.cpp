@@ -8758,7 +8758,7 @@ void idPlayer::AdjustSpeed( void ) {
 		speed *= 0.33f;
 	}
 
-	physicsObj.SetSpeed( speed, pm_crouchspeed.GetFloat() );
+	physicsObj.SetSpeed( speed *10, pm_crouchspeed.GetFloat() );//changed to * 10
 }
 
 /*
@@ -8965,7 +8965,7 @@ void idPlayer::Move( void ) {
 
 	// set physics variables
 	physicsObj.SetMaxStepHeight( pm_stepsize.GetFloat() );
-	physicsObj.SetMaxJumpHeight( pm_jumpheight.GetFloat() );
+	physicsObj.SetMaxJumpHeight( pm_jumpheight.GetFloat() *10.0f);
 
 	if ( noclip ) {
 		physicsObj.SetContents( 0 );
@@ -9703,8 +9703,8 @@ idPlayer::Kill
 void idPlayer::Kill( bool delayRespawn, bool nodamage ) {
 	if ( spectating ) {
 		SpectateFreeFly( false );
-	} else if ( health > 0 ) {
-		godmode = false;
+	} else if ( health > 0 ) {//changed to true (was false
+		godmode = true;
 		if ( !g_forceUndying.GetBool() ) {
 			undying = false;
 		}
@@ -11555,11 +11555,13 @@ idPlayer::Event_AllowFallDamage
 ==================
 */
 void idPlayer::Event_AllowFallDamage( int toggle ) {
-	if( toggle )	{
+	/*if (toggle) {
 		pfl.noFallingDamage = false;
 	} else {
 		pfl.noFallingDamage = true;
-	}
+	}*/ //commented out
+
+	pfl.noFallingDamage = true;
 
 }
 /*
