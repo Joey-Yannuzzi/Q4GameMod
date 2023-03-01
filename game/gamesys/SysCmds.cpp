@@ -26,7 +26,7 @@
 // RAVEN END
 
 #ifdef _WIN32
-#include "TypeInfo"
+#include "TypeInfo.h"
 #else
 #include "NoGameTypeInfo.h"
 #endif
@@ -171,7 +171,7 @@ void Cmd_ListSpawnArgs_f( const idCmdArgs &args ) {
 
 	for ( i = 0; i < ent->spawnArgs.GetNumKeyVals(); i++ ) {
 		const idKeyValue *kv = ent->spawnArgs.GetKeyVal( i );
-		gameLocal.Printf( "\"%s\"  " S_COLOR_WHITE"\"%s\"\n", kv->GetKey().c_str(), kv->GetValue().c_str() );
+		gameLocal.Printf( "\"%s\"  "S_COLOR_WHITE"\"%s\"\n", kv->GetKey().c_str(), kv->GetValue().c_str() );
 	}
 }
 
@@ -2969,34 +2969,7 @@ void Cmd_PlayerEmote_f( const idCmdArgs& args ) {
 	}
 	
 }
-//2/13 class
-void Cmd_DoTrace_f (const idCmdArgs& args)
-{
-	idPlayer* player;
-	idVec3 start, end;
-	idAngles angles;
-	trace_t results = {};
-	player = gameLocal.GetLocalPlayer();
 
-	if (!player)
-	{
-		return;
-	}
-
-	start = player->GetPhysics()->GetOrigin();
-	angles = player->viewAngles;
-	end = angles.ToForward();
-	end *= 8000;
-	end += start;
-
-	gameLocal.TracePoint(player, results, start, end, player->GetPhysics()->GetClipMask(), player);
-
-	if (results.fraction < 1.0f)
-	{
-		gameLocal.Printf("%f, %f, %f", results.endpos.x, results.endpos.y, results.endpos.z);
-	}
-}
-//END
 // mekberg: added
 void Cmd_SetPMCVars_f ( const idCmdArgs &args ) {
 	if ( gameLocal.isMultiplayer ) {
@@ -3258,9 +3231,6 @@ void idGameLocal::InitConsoleCommands( void ) {
 // squirrel: Mode-agnostic buymenus
 	cmdSystem->AddCommand( "buyMenu",				Cmd_ToggleBuyMenu_f,		CMD_FL_GAME,				"Toggle buy menu (if in a buy zone and the game type supports it)" );
 	cmdSystem->AddCommand( "buy",					Cmd_BuyItem_f,				CMD_FL_GAME,				"Buy an item (if in a buy zone and the game type supports it)" );
-	//2/13 class
-	cmdSystem->AddCommand( "doTrace",				Cmd_DoTrace_f,				CMD_FL_GAME,				"Do a trace");
-	//END
 // RITUAL END
 
 }
