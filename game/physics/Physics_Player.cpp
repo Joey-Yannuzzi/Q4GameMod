@@ -724,18 +724,7 @@ void idPhysics_Player::WalkMove( void ) {
 	viewForward.Normalize();
 	viewRight.Normalize();
 
-	//Joey START!
-	wishvel = viewForward * command.forwardmove; //+ viewRight * command.rightmove; disables strafe movement
-	//I have no idea where to put this yet
-	if (viewRight.Normalize() > 0.0)
-	{
-		//gameLocal.Printf("Turn Right");
-	}
-	else if (viewRight.Normalize() < 0.0)
-	{
-		//gameLocal.Printf("Turn Left");
-	}
-	//Joey END!
+	wishvel = viewForward * command.forwardmove + viewRight * command.rightmove;
 	wishdir = wishvel;
 	wishspeed = wishdir.Normalize();
 	wishspeed *= scale;
