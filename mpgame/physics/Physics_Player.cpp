@@ -745,7 +745,7 @@ void idPhysics_Player::WalkMove( void ) {
 		return;
 	}
 
-	if ( idPhysics_Player::CheckJump() ) {
+	/*if (idPhysics_Player::CheckJump()) {
 		// jumped away
 		if ( waterLevel > WATERLEVEL_FEET ) {
 			idPhysics_Player::WaterMove();
@@ -753,7 +753,7 @@ void idPhysics_Player::WalkMove( void ) {
 			idPhysics_Player::AirMove();
 		}
 		return;
-	}
+	}*/ //disables jumping
 
 	idPhysics_Player::Friction();
 
@@ -770,7 +770,7 @@ void idPhysics_Player::WalkMove( void ) {
 	viewForward.Normalize();
 	viewRight.Normalize();
 
-	wishvel = viewForward * command.forwardmove + viewRight * command.rightmove;
+	wishvel = viewForward * command.forwardmove; // + viewRight * command.rightmove; disables strafing
 	wishdir = wishvel;
 	wishspeed = wishdir.Normalize();
 	wishspeed *= scale;
