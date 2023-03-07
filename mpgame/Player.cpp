@@ -7772,12 +7772,14 @@ void idPlayer::UpdateViewAngles( void ) {
 			viewAngles.pitch = -89.0f;
 		}
 	} else {
-		if ( viewAngles.pitch > pm_maxviewpitch.GetFloat() ) {
+		if ( viewAngles.pitch >= (pm_maxviewpitch.GetFloat()/pm_maxviewpitch.GetFloat()) ) {//divided it by itself to become 1
 			// don't let the player look down enough to see the shadow of his (non-existant) feet
-			viewAngles.pitch = pm_maxviewpitch.GetFloat();
-		} else if ( viewAngles.pitch < pm_minviewpitch.GetFloat() ) {
+			//viewAngles.pitch = pm_maxviewpitch.GetFloat();
+			viewAngles.pitch = 0.0f;//resets pitch
+		} else if ( viewAngles.pitch <= (pm_minviewpitch.GetFloat()/pm_minviewpitch.GetFloat()) ) {//divided it by itself to become 1
 			// don't let the player look up more than 89 degrees
-			viewAngles.pitch = pm_minviewpitch.GetFloat();
+			//viewAngles.pitch = pm_minviewpitch.GetFloat();
+			viewAngles.pitch = 0.0f;//resets pitch
 		}
 	}
 

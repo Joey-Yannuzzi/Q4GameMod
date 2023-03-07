@@ -380,8 +380,8 @@ idCVar pm_noclipspeed(				"pm_noclipspeed",			"270",			CVAR_GAME | CVAR_NETWORKS
 idCVar pm_spectatespeed(			"pm_spectatespeed",			"450",			CVAR_GAME | CVAR_NETWORKSYNC | CVAR_FLOAT | CVAR_NORESET, "speed the player can move while spectating" );
 idCVar pm_spectatebbox(				"pm_spectatebbox",			"32",			CVAR_GAME | CVAR_NETWORKSYNC | CVAR_FLOAT | CVAR_NORESET, "size of the spectator bounding box" );
 idCVar pm_usecylinder(				"pm_usecylinder",			"1",			CVAR_GAME | CVAR_NETWORKSYNC | CVAR_INTEGER | CVAR_NORESET | CVAR_ARCHIVE, "use a cylinder approximation instead of a bounding box for player collision detection (>= 3 - custom number of sides)" );
-idCVar pm_minviewpitch(				"pm_minviewpitch",			"-89",			CVAR_GAME | CVAR_NETWORKSYNC | CVAR_FLOAT | CVAR_NORESET, "amount player's view can look up (negative values are up)" );
-idCVar pm_maxviewpitch(				"pm_maxviewpitch",			"89",			CVAR_GAME | CVAR_NETWORKSYNC | CVAR_FLOAT | CVAR_NORESET, "amount player's view can look down" );
+idCVar pm_minviewpitch(				"pm_minviewpitch",			"-1",/*changed from -89*/			CVAR_GAME | CVAR_NETWORKSYNC | CVAR_FLOAT | CVAR_NORESET, "amount player's view can look up (negative values are up)");
+idCVar pm_maxviewpitch(				"pm_maxviewpitch",			"1",/*changed from 89*/			CVAR_GAME | CVAR_NETWORKSYNC | CVAR_FLOAT | CVAR_NORESET, "amount player's view can look down");
 idCVar pm_stamina(					"pm_stamina",				"24",			CVAR_GAME | CVAR_NETWORKSYNC | CVAR_FLOAT | CVAR_NORESET, "length of time player can run" );
 idCVar pm_staminathreshold(			"pm_staminathreshold",		"45",			CVAR_GAME | CVAR_NETWORKSYNC | CVAR_FLOAT | CVAR_NORESET, "when stamina drops below this value, player gradually slows to a walk" );
 idCVar pm_staminarate(				"pm_staminarate",			"0.75",			CVAR_GAME | CVAR_NETWORKSYNC | CVAR_FLOAT | CVAR_NORESET, "rate that player regains stamina. divide pm_stamina by this value to determine how long it takes to fully recharge." );
