@@ -3052,6 +3052,34 @@ void Cmd_ListMaps_f( const idCmdArgs& args ) {
 	gameLocal.mpGame.ListMaps();
 }
 
+//function that changes kart type through commands
+void Cmd_ChangeKartType(const idCmdArgs& args)
+{
+	gameLocal.Printf("Command loaded successfully\n");
+	idPlayer* playerPtr = gameLocal.GetLocalPlayer();
+	gameLocal.Printf(args.Argv(1));
+
+	if (args.Argv(1) == "light")
+	{
+		playerPtr->SetKartType(idPlayer::LIGHT);
+		gameLocal.Printf("set to light weight\n");
+	}
+	else if (args.Argv(1) == "medium")
+	{
+		playerPtr->SetKartType(idPlayer::MEDIUM);
+		gameLocal.Printf("set to medium weight\n");
+	}
+	else if (args.Argv(1) == "heavy")
+	{
+		playerPtr->SetKartType(idPlayer::HEAVY);
+		gameLocal.Printf("set to heavy weight\n");
+	}
+	else
+	{
+		gameLocal.Printf("Invalid argument: " + *args.Argv(1) +'\n');
+	}
+}
+
 /*
 =================
 idGameLocal::InitConsoleCommands
@@ -3248,6 +3276,7 @@ void idGameLocal::InitConsoleCommands( void ) {
 	cmdSystem->AddCommand( "buy",					Cmd_BuyItem_f,				CMD_FL_GAME,				"Buy an item (if in a buy zone and the game type supports it)" );
 // RITUAL END
 
+	cmdSystem->AddCommand("kartType", Cmd_ChangeKartType, CMD_FL_GAME, "Change kart type to light, medium, or heavy");
 }
 
 /*

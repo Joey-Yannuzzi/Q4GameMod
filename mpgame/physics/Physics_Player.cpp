@@ -773,19 +773,34 @@ void idPhysics_Player::WalkMove( void ) {
 	viewForward.Normalize();
 	viewRight.Normalize();
 
+	float weightSpeed = 1;
+	idPlayer* localPtr = gameLocal.GetLocalPlayer();
+
+	switch (localPtr->GetKartType())
+	{
+	case idPlayer::LIGHT:
+		weightSpeed = 0.5;
+		break;
+	case idPlayer::MEDIUM:
+		weightSpeed = 1;
+		break;
+	case idPlayer::HEAVY:
+		weightSpeed = 2;
+		break;
+	}
+
 	if (command.forwardmove < 0)
 	{
 		wishvel = viewForward * command.forwardmove * 0.25;
 	}
 	else
 	{
-		wishvel = viewForward * command.forwardmove; // + viewRight * command.rightmove; disables strafing
+		wishvel = viewForward * command.forwardmove * weightSpeed; // + viewRight * command.rightmove; disables strafing
 	}
 
 	//Rotates player based on A/D
 	viewAngles.yaw -= command.rightmove * .03125;
 	//updates viewAngles with new yaw
-	idPlayer* localPtr = gameLocal.GetLocalPlayer();
 	localPtr->UpdateDeltaViewAngles(viewAngles);
 	localPtr->SetAngles(idAngles(0, viewAngles.yaw, 0));//rotates model to account for yaw change
 
