@@ -40,6 +40,9 @@ const int PMF_TIME_KNOCKBACK	= 64;		// movementTime is an air-accelerate only ti
 const int PMF_TIME_WATERJUMP	= 128;		// movementTime is waterjump
 const int PMF_ALL_TIMES			= (PMF_TIME_WATERJUMP|PMF_TIME_LAND|PMF_TIME_KNOCKBACK);
 
+const int fricConst = 50;
+int fricDec = fricConst;
+
 float idPhysics_Player::Pm_Accelerate( void ) {
 	return gameLocal.IsMultiplayer() ? PM_ACCELERATE_MP : PM_ACCELERATE_SP;
 }
@@ -770,20 +773,14 @@ void idPhysics_Player::WalkMove( void ) {
 	viewForward.Normalize();
 	viewRight.Normalize();
 
-	wishvel = viewForward * command.forwardmove; // + viewRight * command.rightmove; disables strafing
-
-	//Checks for right turn
-	/*if (command.rightmove < 0)
+	if (command.forwardmove < 0)
 	{
-		
-		gameLocal.Printf("Turn left");
+		wishvel = viewForward * command.forwardmove * 0.25;
 	}
-	//checks for left turn
-	else if (command.rightmove > 0)
+	else
 	{
-		viewAngles.yaw -= command.rightmove * .1;
-		gameLocal.Printf("Turn right");
-	}*/
+		wishvel = viewForward * command.forwardmove; // + viewRight * command.rightmove; disables strafing
+	}
 
 	//Rotates player based on A/D
 	viewAngles.yaw -= command.rightmove * .03125;
