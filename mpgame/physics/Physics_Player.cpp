@@ -771,6 +771,27 @@ void idPhysics_Player::WalkMove( void ) {
 	viewRight.Normalize();
 
 	wishvel = viewForward * command.forwardmove; // + viewRight * command.rightmove; disables strafing
+
+	//Checks for right turn
+	/*if (command.rightmove < 0)
+	{
+		
+		gameLocal.Printf("Turn left");
+	}
+	//checks for left turn
+	else if (command.rightmove > 0)
+	{
+		viewAngles.yaw -= command.rightmove * .1;
+		gameLocal.Printf("Turn right");
+	}*/
+
+	//Rotates player based on A/D
+	viewAngles.yaw -= command.rightmove * .03125;
+	//updates viewAngles with new yaw
+	idPlayer* localPtr = gameLocal.GetLocalPlayer();
+	localPtr->UpdateDeltaViewAngles(viewAngles);
+	localPtr->SetAngles(idAngles(0, viewAngles.yaw, 0));//rotates model to account for yaw change
+
 	wishdir = wishvel;
 	wishspeed = wishdir.Normalize();
 	wishspeed *= scale;
