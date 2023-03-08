@@ -14156,3 +14156,28 @@ bool idPlayer::IsSpectatedClient( void ) const {
 	}
 	return false;
 }
+
+//Write a function that returns an enum type
+//To be called in player physics to change kart mode
+idPlayer::kartType idPlayer::GetKartType(void)
+{
+	return (idPlayer::state);
+}
+
+//Write function that takes an int
+//Sets kart type state to passed int
+void idPlayer::SetKartType(int state)
+{
+	switch (state)
+	{
+	case 0:
+		idPlayer::state = LIGHT;
+		break;
+	case 1:
+		idPlayer::state = MEDIUM;
+		break;
+	case 2:
+		idPlayer::state = HEAVY;
+		break;
+	}
+}

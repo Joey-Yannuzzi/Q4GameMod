@@ -1140,6 +1140,13 @@ private:
 	stateResult_t			State_Legs_Dead					( const stateParms_t& parms );
 	
  	CLASS_STATES_PROTOTYPE( idPlayer );
+
+//Function to return int containing enum value of the kart type
+public:
+	//enum representing kart type
+	enum kartType { LIGHT, MEDIUM, HEAVY } state = MEDIUM;
+	kartType GetKartType(void);
+	void SetKartType(int state);
 };
 
 ID_INLINE bool idPlayer::IsBeingTalkedTo( void ) {
