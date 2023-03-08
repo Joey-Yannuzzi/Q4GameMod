@@ -8561,6 +8561,22 @@ void idPlayer::PerformImpulse( int impulse ) {
  			LastWeapon();
  			break;
  		}
+		//Set kart types here
+		case IMPULSE_23:
+		{
+			SetKartType(0);
+			break;
+		}
+		case IMPULSE_24:
+		{
+			SetKartType(1);
+			break;
+		}
+		case IMPULSE_25:
+		{
+			SetKartType(2);
+			break;
+		}
 	} 
 
 //RAVEN BEGIN
@@ -14171,12 +14187,15 @@ void idPlayer::SetKartType(int state)
 	switch (state)
 	{
 	case 0:
+		gameLocal.Printf("light kart\n");
 		idPlayer::state = LIGHT;
 		break;
 	case 1:
+		gameLocal.Printf("medium kart\n");
 		idPlayer::state = MEDIUM;
 		break;
 	case 2:
+		gameLocal.Printf("heavy kart\n");
 		idPlayer::state = HEAVY;
 		break;
 	}
