@@ -14,7 +14,7 @@ const float PM_STEPSCALE		= 1.0f;
 
 const float PM_ACCELERATE_SP	= 10.0f;
 const float PM_AIRACCELERATE_SP	= 1.0f;
-const float PM_ACCELERATE_MP	= 15.0f;
+const float PM_ACCELERATE_MP	= 2.0f; //was 15.0f
 const float PM_AIRACCELERATE_MP	= 1.18f;
 const float PM_WATERACCELERATE	= 4.0f;
 const float PM_FLYACCELERATE	= 8.0f;
@@ -122,10 +122,30 @@ void idPhysics_Player::Accelerate( const idVec3 &wishdir, const float wishspeed,
 		accelspeed = accel * frametime * wishspeed;
 	}
 // RAVEN END
-	if ( accelspeed > addspeed ) {
+	if (accelspeed > addspeed) {
 		accelspeed = addspeed;
 	}
 	
+	/*idPlayer* playerPtr = gameLocal.GetLocalPlayer();
+	float startSpeed = 0;
+	idVec3 vec = idVec3(1, 1, 1);
+
+	switch (playerPtr->GetKartType())
+	{
+	case idPlayer::LIGHT:
+		accelspeed *= 1.5;
+		startSpeed = 3;
+		break;
+	case idPlayer::MEDIUM:
+		accelspeed *= 3;
+		startSpeed = 2;
+		break;
+	case idPlayer::HEAVY:
+		accelspeed *= 6;
+		startSpeed = 1;
+		break;
+	}*/
+
 	current.velocity += accelspeed * wishdir;
 
 #else
@@ -774,18 +794,22 @@ void idPhysics_Player::WalkMove( void ) {
 	viewRight.Normalize();
 
 	float weightSpeed = 1;
+	float weightAccel = 1;
 	idPlayer* localPtr = gameLocal.GetLocalPlayer();
 
 	switch (localPtr->GetKartType())
 	{
 	case idPlayer::LIGHT:
-		weightSpeed = 0.5;
+		weightSpeed = 1;
+		weightAccel = 4;
 		break;
 	case idPlayer::MEDIUM:
-		weightSpeed = 1;
+		weightSpeed = 2;
+		weightAccel = 2;
 		break;
 	case idPlayer::HEAVY:
-		weightSpeed = 2;
+		weightSpeed = 4;
+		weightAccel = 1;
 		break;
 	}
 
@@ -795,7 +819,7 @@ void idPhysics_Player::WalkMove( void ) {
 	}
 	else
 	{
-		wishvel = viewForward * command.forwardmove * weightSpeed; // + viewRight * command.rightmove; disables strafing
+		wishvel = viewForward * command.forwardmove; // + viewRight * command.rightmove; disables strafing
 	}
 
 	//Rotates player based on A/D
@@ -822,7 +846,7 @@ void idPhysics_Player::WalkMove( void ) {
 	// lower acceleration (control) when on slippery stuff or being smacked around
 	bool fLowControl = ( ( current.movementFlags & PMF_TIME_KNOCKBACK ) || ( groundMaterial && groundMaterial->GetSurfaceFlags() & SURF_SLICK ) );
 	accelerate = fLowControl ? Pm_AirAccelerate() : Pm_Accelerate();
-	idPhysics_Player::Accelerate( wishdir, wishspeed, accelerate );
+	idPhysics_Player::Accelerate( wishdir, wishspeed * weightSpeed, accelerate);
 	if ( fLowControl ) {
 		current.velocity += gravityVector * frametime;
 	}
