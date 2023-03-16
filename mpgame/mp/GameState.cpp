@@ -212,6 +212,7 @@ void rvGameState::GameStateChanged( void ) {
 				gameLocal.mpGame.ScheduleAnnouncerSound( AS_GENERAL_ONE, nextStateTime - 1000 );
 			}
 		} else if( currentState == GAMEON ) {
+			gameLocal.Printf("Game On\n");
 			if ( !player->vsMsgState ) {
 				player->GUIMainNotice( "" );
 				player->GUIFragNotice( "" );
@@ -410,10 +411,12 @@ void rvGameState::NewState( mpGameState_t newState ) {
 	byte		msgBuf[MAX_GAME_MESSAGE_SIZE];
 	int			i;
 
+	//NOTE: state must change AND the server must be handling this or else code will abort
 	assert( (newState != currentState) && gameLocal.isServer );
 	
 	switch( newState ) {
 		case WARMUP: {
+			gameLocal.Printf("Warmup time\n");
 			//	asalmon: start the stat manager as soon as the game starts
 			statManager->Init();
 			statManager->BeginGame();
@@ -442,6 +445,7 @@ void rvGameState::NewState( mpGameState_t newState ) {
 			break;
 		}
 		case GAMEON: {
+			gameLocal.Printf("Game is on\n");
 			// allow damage in warmup
 			//gameLocal.mpGame.EnableDamage( true );
 			gameLocal.LocalMapRestart();
@@ -455,6 +459,8 @@ void rvGameState::NewState( mpGameState_t newState ) {
 				idPlayer* player = static_cast< idPlayer* >(ent);
 				player->inventory.carryOverWeapons = 0;
 				player->ResetCash();
+				//idGameLocal local = player->GetGameLocal();
+				//local.Printf("This player's game is on!\n");
 				// If the buy menu is up during a server restart,
 				// make sure to refresh it.
 				gameLocal.mpGame.RedrawLocalBuyMenu();
@@ -548,6 +554,17 @@ void rvGameState::NewState( mpGameState_t newState ) {
 			break;
 		}
 		case GAMEREVIEW: {
+
+			for (int bogus = 0; bogus < gameLocal.numClients; bogus++)
+			{
+				idPlayer* ptr = (idPlayer*)gameLocal.entities[bogus];
+				if (ptr == NULL || !ptr->IsType(idPlayer::GetClassType()))
+				{
+					continue;
+				}
+
+				gameLocal.mpGame.SetPlayerScore(ptr, ptr->GetPointValue());
+			}
 			statManager->EndGame();
 
 			//statManager->DebugPrint();
@@ -799,6 +816,15 @@ void rvDMGameState::Run( void ) {
 		case GAMEON: {
 			player = gameLocal.mpGame.FragLimitHit();
 
+			for (int bogus = 0; bogus < gameLocal.numClients; bogus++)
+			{
+				idPlayer* ptr = (idPlayer*)gameLocal.entities[bogus];
+				if (ptr == NULL || !ptr->IsType(idPlayer::GetClassType()))
+				{
+					continue;
+				}
+				gameLocal.mpGame.SetPlayerScore(ptr, ptr->GetPointValue());
+			}
 			bool tiedForFirst = false;
 			idPlayer* first = gameLocal.mpGame.GetRankedPlayer( 0 );
 			idPlayer* second = gameLocal.mpGame.GetRankedPlayer( 1 );
@@ -851,6 +877,30 @@ void rvDMGameState::Run( void ) {
 				// check for the rare case that two players both hit the fraglimit the same frame
 				// two people tied at fraglimit, advance to sudden death after a delay
 				fragLimitTimeout = gameLocal.time + FRAGLIMIT_DELAY;
+			}
+
+			if (gameLocal.isServer)
+			{
+				for (int bogus = 0; bogus < gameLocal.numClients; bogus++)
+				{
+					/*idEntity* entity = gameLocal.entities[bogus];
+					if (!entity || entity->IsType(idPlayer::GetClassType()))
+					{
+						continue;
+					}
+					idPlayer* ptr = static_cast<idPlayer*>(entity);*/
+
+					idPlayer* ptr = (idPlayer*)gameLocal.entities[bogus];
+					if (ptr == NULL || !ptr->IsType(idPlayer::GetClassType()))
+					{
+						continue;
+					}
+
+					if (ptr->GetPoints())
+					{
+						NewState(GAMEREVIEW);
+					}
+				}
 			}
 	
 			break;			 

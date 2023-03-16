@@ -1144,10 +1144,13 @@ private:
 //Function to return int containing enum value of the kart type
 public:
 	//enum representing kart type
+	int points = 0;
 	enum kartType { LIGHT, MEDIUM, HEAVY } state = MEDIUM;
 	kartType GetKartType(void);
 	void SetKartType(int state);
 	bool GetPoints();
+	idGameLocal GetGameLocal();
+	int GetPointValue();
 };
 
 ID_INLINE bool idPlayer::IsBeingTalkedTo( void ) {
