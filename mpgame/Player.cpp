@@ -4262,6 +4262,20 @@ idPlayer::GiveItem
 Returns false if the item shouldn't be picked up
 ===============
 */
+int points = 0; //point value for winning the game
+
+bool idPlayer::GetPoints()
+{
+	if (points < 10)
+	{
+		return (false);
+	}
+	else
+	{
+		return (true);
+	}
+}
+
 bool idPlayer::GiveItem( idItem *item ) {
 	int					i;
 	const idKeyValue	*arg;
@@ -4352,8 +4366,24 @@ bool idPlayer::GiveItem( idItem *item ) {
 	}
 	arg = item->spawnArgs.MatchPrefix( "inv_armor", NULL );
 	if ( arg && hud ) {
+		//gameLocal.Printf("testing");
 		hud->HandleNamedEvent( "armorPulse" );
+		points++; //increments points
+		//gameLocal.Printf("scored\n");
 	}
+	//checks if enough points are collected to tell player ther is winner
+	if (GetPoints())
+	{
+		gameLocal.Printf("YOU WIN!\n");
+	}
+
+	/*arg = item->spawnArgs.MatchPrefix("inv_checkpoint", NULL);
+	if (arg && hud)
+	{
+		hud->HandleNamedEvent("armorPulse");
+		points++;
+		gameLocal.Printf("scored");
+	}*/
 	
 //	GiveDatabaseEntry ( &item->spawnArgs );
 	

@@ -1147,6 +1147,7 @@ public:
 	enum kartType { LIGHT, MEDIUM, HEAVY } state = MEDIUM;
 	kartType GetKartType(void);
 	void SetKartType(int state);
+	bool GetPoints();
 };
 
 ID_INLINE bool idPlayer::IsBeingTalkedTo( void ) {
