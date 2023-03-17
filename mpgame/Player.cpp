@@ -4283,6 +4283,98 @@ int idPlayer::GetPointValue()
 	return (points);
 }
 
+//checks if the checkpoint has already been touched
+//only increments points if it has not been touched
+void idPlayer::checkPickup(const char* c, idUserInterface* hud)
+{
+	gameLocal.Printf((idStr)checkpoints);
+	switch (points)
+	{
+	case check1:
+		if (strcmp(c, "item_checkpoint_1") == 0)
+		{
+			checkpoints = check2;
+			points++;
+			hud->HandleNamedEvent("armorPulse");
+		}
+		break;
+	case check2:
+		if (strcmp(c, "item_checkpoint_2") == 0)
+		{
+			checkpoints = check3;
+			points++;
+			hud->HandleNamedEvent("armorPulse");
+		}
+		break;
+	case check3:
+		if (strcmp(c, "item_checkpoint_3") == 0)
+		{
+			checkpoints = check4;
+			points++;
+			hud->HandleNamedEvent("armorPulse");
+		}
+		break;
+	case check4:
+		if (strcmp(c, "item_checkpoint_4") == 0)
+		{
+			checkpoints = check5;
+			points++;
+			hud->HandleNamedEvent("armorPulse");
+		}
+		break;
+	case check5:
+		if (strcmp(c, "item_checkpoint_5") == 0)
+		{
+			checkpoints = check6;
+			points++;
+			hud->HandleNamedEvent("armorPulse");
+		}
+		break;
+	case check6:
+		if (strcmp(c, "item_checkpoint_6") == 0)
+		{
+			checkpoints = check7;
+			points++;
+			hud->HandleNamedEvent("armorPulse");
+		}
+		break;
+	case check7:
+		if (strcmp(c, "item_checkpoint_7") == 0)
+		{
+			checkpoints = check8;
+			points++;
+			hud->HandleNamedEvent("armorPulse");
+		}
+		break;
+	case check8:
+		if (strcmp(c, "item_checkpoint_8") == 0)
+		{
+			checkpoints = check9;
+			points++;
+			hud->HandleNamedEvent("armorPulse");
+		}
+		break;
+	case check9:
+		if (strcmp(c, "item_checkpoint_9") == 0)
+		{
+			checkpoints = check10;
+			points++;
+			hud->HandleNamedEvent("armorPulse");
+		}
+		break;
+	case check10:
+		if (strcmp(c, "item_checkpoint_10") == 0)
+		{
+			checkpoints = END;
+			points++;
+			hud->HandleNamedEvent("armorPulse");
+		}
+		break;
+	case END:
+		break;
+	}
+}
+
 bool idPlayer::GiveItem( idItem *item ) {
 	int					i;
 	const idKeyValue	*arg;
@@ -4374,8 +4466,14 @@ bool idPlayer::GiveItem( idItem *item ) {
 	arg = item->spawnArgs.MatchPrefix( "inv_armor", NULL );
 	if ( arg && hud ) {
 		//gameLocal.Printf("testing");
-		hud->HandleNamedEvent( "armorPulse" );
-		points++; //increments points
+		//hud->HandleNamedEvent( "armorPulse" ); moved to checkPickup()
+		//idStr checkName = (idStr)item->spawnArgs.MatchPrefix("name");
+		//checkpointList.push_back(checkName);
+		//checkpointList.unique();
+		//points = checkpointList.size();
+		const char* c = item->spawnArgs.GetString("name");
+		checkPickup(c, hud);
+		//points++; //increments points
 		//gameLocal.Printf("scored\n");
 	}
 	//checks if enough points are collected to tell player ther is winner
