@@ -6,6 +6,8 @@
 #ifndef __GAME_PLAYER_H__
 #define __GAME_PLAYER_H__
 
+//#include <list>
+
 /*
 ===============================================================================
 
@@ -1151,6 +1153,10 @@ public:
 	bool GetPoints();
 	idGameLocal GetGameLocal();
 	int GetPointValue();
+	//std::list<idStr> checkpointList;
+	//bool checkpoints[10] = { false, false, false, false, false, false, false, false, false, false };
+	enum check {check1, check2, check3, check4, check5, check6, check7, check8, check9, check10, END} checkpoints = check1;
+	void checkPickup(const char* c, idUserInterface* hud);
 };
 
 ID_INLINE bool idPlayer::IsBeingTalkedTo( void ) {
