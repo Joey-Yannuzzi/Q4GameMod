@@ -4288,7 +4288,7 @@ int idPlayer::GetPointValue()
 void idPlayer::checkPickup(const char* c, idUserInterface* hud)
 {
 	gameLocal.Printf((idStr)checkpoints);
-	switch (points)
+	switch (checkpoints)
 	{
 	case check1:
 		if (strcmp(c, "item_checkpoint_1") == 0)
