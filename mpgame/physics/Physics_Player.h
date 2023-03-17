@@ -181,6 +181,10 @@ private:
 
 	float					Pm_Accelerate( void );
 	float					Pm_AirAccelerate( void );
+
+public:
+	void DoubleKartSpeed(bool speedDoubled);
+	//int doubleMult;
 };
 
 ID_INLINE bool idPhysics_Player::IsNoclip( void ) const {

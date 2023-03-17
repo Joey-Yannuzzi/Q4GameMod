@@ -14340,3 +14340,8 @@ idGameLocal idPlayer::GetGameLocal()
 {
 	return (gameLocal);
 }
+
+void idPlayer::SetItem(ItemType newItem)
+{
+	item = newItem;
+}

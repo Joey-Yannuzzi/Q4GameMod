@@ -749,6 +749,23 @@ void idPhysics_Player::AirMove( void ) {
 	idPhysics_Player::SlideMove( true, gameLocal.isMultiplayer, false, false );
 }
 
+//doubles kart speed if param passed as true
+//undoubles speed if passed as false
+//called from machine gun to be used as item
+void idPhysics_Player::DoubleKartSpeed(bool speedDoubled)
+{
+	if (speedDoubled)
+	{
+		//doubleMult = 10;
+		gameLocal.Printf("speed doubled\n");
+	}
+	/*else
+	{
+		gameLocal.Printf("speed reduced\n");
+		doubleMult = 1;
+	}*/
+}
+
 /*
 ===================
 idPhysics_Player::WalkMove
@@ -811,6 +828,16 @@ void idPhysics_Player::WalkMove( void ) {
 		weightSpeed = 4;
 		weightAccel = 1;
 		break;
+	}
+
+	if (localPtr->item == idPlayer::MUSHROOM)
+	{
+		weightSpeed *= 2;
+		gameLocal.Printf("speed doubled");
+	}
+	else
+	{
+		weightSpeed *= 1;
 	}
 
 	if (command.forwardmove < 0)
@@ -1723,6 +1750,9 @@ idPhysics_Player::idPhysics_Player( void ) {
 	ladderNormal.Zero();
 	waterLevel = WATERLEVEL_NONE;
 	waterType = 0;
+
+	//doubleMult = 1;
+	gameLocal.Printf("multiplier\n");
 }
 
 /*
