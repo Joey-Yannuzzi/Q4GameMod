@@ -780,12 +780,14 @@ stateResult_t rvWeaponLightningGun::State_Idle( const stateParms_t& parms ) {
 		STAGE_INIT,
 		STAGE_WAIT,
 	};	
+	idPlayer* playerPtr = gameLocal.GetLocalPlayer();
 	switch ( parms.stage ) {
 		case STAGE_INIT:
 			SetStatus( WP_READY );
 			PlayCycle( ANIMCHANNEL_ALL, "idle", parms.blendFrames );
 			StopSound( SND_CHANNEL_BODY3, false );
 			StartSound( "snd_idle_hum", SND_CHANNEL_BODY3, 0, false, NULL );
+			playerPtr->SetItem(idPlayer::NOTURN);
 
 			return SRESULT_STAGE( STAGE_WAIT );
 		

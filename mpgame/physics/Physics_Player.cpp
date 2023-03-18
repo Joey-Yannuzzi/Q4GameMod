@@ -812,6 +812,10 @@ void idPhysics_Player::WalkMove( void ) {
 
 	float weightSpeed = 1;
 	float weightAccel = 1;
+	float rev = 1;
+	float revTurn = 1;
+	float freeze = 1;
+	idVec3 origin = idVec3(992, 1296, 192);
 	idPlayer* localPtr = gameLocal.GetLocalPlayer();
 
 	switch (localPtr->GetKartType())
@@ -830,30 +834,91 @@ void idPhysics_Player::WalkMove( void ) {
 		break;
 	}
 
-	if (localPtr->item == idPlayer::MUSHROOM)
+	switch (localPtr->item)
 	{
-		weightSpeed *= 2;
-		gameLocal.Printf("speed doubled");
-	}
-	else
-	{
+	case idPlayer::NONE:
 		weightSpeed *= 1;
+
+		if (localPtr->bomb)
+		{
+			viewAngles.pitch = localPtr->localPitch;
+			viewAngles.roll = localPtr->localRoll;
+			viewAngles.yaw = localPtr->localYaw;
+			localPtr->localPitch = -1;
+			localPtr->localPitch = -1;
+			localPtr->localYaw = -1;
+			localPtr->bomb = false;
+		}
+		localPtr->teleport = false;
+		break;
+	case idPlayer::MUSHROOM:
+		weightSpeed *= 2;
+		break;
+	case idPlayer::BADMUSHROOM:
+		//gameLocal.Printf("bad mushroom\n");
+		weightSpeed = weightSpeed/2;
+		break;
+	case idPlayer::REVERSEMUSHROOM:
+		rev = -1;
+		break;
+	case idPlayer::TURNMUSHROOM:
+		revTurn = -1;
+		break;
+	case idPlayer::FREEZE:
+		freeze = 0;
+		break;
+	case idPlayer::BANANA:
+		revTurn = 0;
+		freeze = 0;
+		viewAngles.yaw += 5;
+		break;
+	case idPlayer::BOMB:
+		if (!localPtr->bomb)
+		{
+			localPtr->localPitch = viewAngles.pitch;
+			localPtr->localRoll = viewAngles.roll;
+			localPtr->localYaw = viewAngles.yaw;
+		}
+		localPtr->bomb = true;
+		revTurn = 0;
+		freeze = 0;
+		viewAngles.yaw += 5;
+		viewAngles.pitch += 5;
+		viewAngles.roll += 5;
+		break;
+	case idPlayer::NOTURN:
+		revTurn = 0;
+		break;
+	case idPlayer::TELEPORT:
+		if (!localPtr->teleport)
+		{
+			gameLocal.Printf("teleporting\n");
+			localPtr->SetPosition(&origin);
+			localPtr->Spawn();
+			localPtr->teleport = true;
+		}
+		break;
+	case idPlayer::SUPERBAD:
+		weightSpeed = weightSpeed / 2;
+		rev = -1;
+		revTurn = -1;
+		break;
 	}
 
-	if (command.forwardmove < 0)
-	{
-		wishvel = viewForward * command.forwardmove * 0.25;
-	}
-	else
-	{
-		wishvel = viewForward * command.forwardmove; // + viewRight * command.rightmove; disables strafing
-	}
+	wishvel = viewForward * command.forwardmove * rev; // + viewRight * command.rightmove; disables strafing
 
 	//Rotates player based on A/D
-	viewAngles.yaw -= command.rightmove * .03125;
+	viewAngles.yaw -= command.rightmove * .03125 * revTurn;
 	//updates viewAngles with new yaw
 	localPtr->UpdateDeltaViewAngles(viewAngles);
-	localPtr->SetAngles(idAngles(0, viewAngles.yaw, 0));//rotates model to account for yaw change
+	if (localPtr->item == idPlayer::BOMB)
+	{
+		localPtr->SetAngles(idAngles(viewAngles.pitch, viewAngles.yaw, viewAngles.roll));//rotates model to account for bomb change
+	}
+	else
+	{
+		localPtr->SetAngles(idAngles(0, viewAngles.yaw, 0));//rotates model to account for yaw change
+	}
 
 	wishdir = wishvel;
 	wishspeed = wishdir.Normalize();
@@ -873,7 +938,7 @@ void idPhysics_Player::WalkMove( void ) {
 	// lower acceleration (control) when on slippery stuff or being smacked around
 	bool fLowControl = ( ( current.movementFlags & PMF_TIME_KNOCKBACK ) || ( groundMaterial && groundMaterial->GetSurfaceFlags() & SURF_SLICK ) );
 	accelerate = fLowControl ? Pm_AirAccelerate() : Pm_Accelerate();
-	idPhysics_Player::Accelerate( wishdir, wishspeed * weightSpeed, accelerate);
+	idPhysics_Player::Accelerate( wishdir, wishspeed * weightSpeed * freeze, accelerate);
 	if ( fLowControl ) {
 		current.velocity += gravityVector * frametime;
 	}

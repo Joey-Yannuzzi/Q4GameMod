@@ -171,8 +171,14 @@ stateResult_t rvWeaponMachinegun::State_Idle( const stateParms_t& parms ) {
 		case STAGE_INIT:
 			if ( !AmmoAvailable ( ) ) {
 				SetStatus ( WP_OUTOFAMMO );
+				idPlayer* playerPtr = gameLocal.GetLocalPlayer();
+				playerPtr->SetItem(idPlayer::NONE);
+				gameLocal.Printf("no ammo\n");
 			} else {
 				SetStatus ( WP_READY );
+				idPlayer* playerPtr = gameLocal.GetLocalPlayer();
+				playerPtr->SetItem(idPlayer::MUSHROOM);
+				gameLocal.Printf("stopped firing\n");
 			}
 		
 			PlayCycle( ANIMCHANNEL_ALL, "idle", parms.blendFrames );

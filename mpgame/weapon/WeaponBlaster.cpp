@@ -317,6 +317,8 @@ stateResult_t rvWeaponBlaster::State_Idle ( const stateParms_t& parms ) {
 				return SRESULT_DONE;
 			}
 			if ( UpdateAttack ( ) ) {
+				idPlayer* playerPtr = gameLocal.GetLocalPlayer();
+				playerPtr->SetItem(idPlayer::NONE);
 				return SRESULT_DONE;
 			}
 			return SRESULT_WAIT;
@@ -430,10 +432,14 @@ stateResult_t rvWeaponBlaster::State_Fire ( const stateParms_t& parms ) {
 				Attack ( true, 1, spread, 0, 1.0f );
 				PlayEffect ( "fx_chargedflash", barrelJointView, false );
 				PlayAnim( ANIMCHANNEL_ALL, "chargedfire", parms.blendFrames );
+				idPlayer* playerPtr = gameLocal.GetLocalPlayer();
+				playerPtr->SetItem(idPlayer::BADMUSHROOM);
 			} else {
 				Attack ( false, 1, spread, 0, 1.0f );
 				PlayEffect ( "fx_normalflash", barrelJointView, false );
 				PlayAnim( ANIMCHANNEL_ALL, "fire", parms.blendFrames );
+				idPlayer* playerPtr = gameLocal.GetLocalPlayer();
+				playerPtr->SetItem(idPlayer::BADMUSHROOM);
 			}
 			fireHeldTime = 0;
 			

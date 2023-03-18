@@ -414,6 +414,8 @@ stateResult_t rvWeaponRocketLauncher::State_Idle( const stateParms_t& parms ) {
 				SetStatus ( WP_OUTOFAMMO );
 			} else {
 				SetStatus ( WP_READY );
+				idPlayer* playerPtr = gameLocal.GetLocalPlayer();
+				playerPtr->SetItem(idPlayer::BANANA);
 			}
 		
 			PlayCycle( ANIMCHANNEL_LEGS, "idle", parms.blendFrames );

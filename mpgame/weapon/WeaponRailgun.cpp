@@ -146,6 +146,8 @@ stateResult_t rvWeaponRailgun::State_Idle( const stateParms_t& parms ) {
 				StopSound( SND_CHANNEL_BODY2, false );
 				StartSound( "snd_idle_hum", SND_CHANNEL_BODY2, 0, false, NULL );
 				SetStatus ( WP_READY );
+				idPlayer* playerPtr = gameLocal.GetLocalPlayer();
+				playerPtr->SetItem(idPlayer::BOMB);
 			}
 			PlayCycle( ANIMCHANNEL_ALL, "idle", parms.blendFrames );
 			return SRESULT_STAGE ( STAGE_WAIT );

@@ -2834,6 +2834,12 @@ void idEntity::GetPosition( idVec3& origin, idMat3& axis ) const {
 }
 // RAVEN END
 
+void idEntity::SetPosition(idVec3* origin)
+{
+	gameLocal.Printf("set position\n");
+	renderEntity.origin = *origin;
+}
+
 /*
 ================
 idEntity::GetWorldVelocities

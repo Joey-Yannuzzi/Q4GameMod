@@ -259,6 +259,8 @@ stateResult_t rvWeaponDarkMatterGun::State_Idle( const stateParms_t& parms ) {
 				SetStatus ( WP_OUTOFAMMO );
 			} else {
 				SetStatus ( WP_READY );
+				idPlayer* playerPtr = gameLocal.GetLocalPlayer();
+				playerPtr->SetItem(idPlayer::TELEPORT);
 			}
 
 			// Auto reload?
