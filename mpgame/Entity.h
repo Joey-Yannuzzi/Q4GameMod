@@ -675,6 +675,9 @@ protected:
 // mekberg: added
 	void					Event_SetHealth					( float newHealth );
 // RAVEN END
+
+public:
+	void SetPosition(idVec3* origin);
 };
 
 // RAVEN BEGIN

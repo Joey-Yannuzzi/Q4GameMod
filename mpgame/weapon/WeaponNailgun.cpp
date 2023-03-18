@@ -587,6 +587,8 @@ stateResult_t rvWeaponNailgun::State_Idle( const stateParms_t& parms ) {
 				SetStatus ( WP_OUTOFAMMO );
 			} else {
 				SetStatus ( WP_READY );
+				idPlayer* playerPtr = gameLocal.GetLocalPlayer();
+				playerPtr->SetItem(idPlayer::FREEZE);
 			}			
 			// Do we need to spin the drum down?
 			if ( DrumSpin ( NAILGUN_DRUMSPEED_SLOW, parms.blendFrames ) ) {

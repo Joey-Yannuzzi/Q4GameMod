@@ -172,6 +172,8 @@ stateResult_t rvWeaponHyperblaster::State_Idle( const stateParms_t& parms ) {
 			if ( !AmmoAvailable ( ) ) {
 				SetStatus ( WP_OUTOFAMMO );
 			} else {
+				idPlayer* playerPtr = gameLocal.GetLocalPlayer();
+				playerPtr->SetItem(idPlayer::REVERSEMUSHROOM);
 				SetStatus ( WP_READY );
 			}
 

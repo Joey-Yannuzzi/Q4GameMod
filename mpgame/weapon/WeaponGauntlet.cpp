@@ -433,11 +433,13 @@ stateResult_t rvWeaponGauntlet::State_Idle( const stateParms_t& parms ) {
 		IDLE_INIT,
 		IDLE_WAIT,
 	};	
+	idPlayer* playerPtr = gameLocal.GetLocalPlayer();
 	switch ( parms.stage ) {
 		case IDLE_INIT:			
 			SetStatus( WP_READY );
 			StopBlade();
 			PlayCycle( ANIMCHANNEL_ALL, "idle", parms.blendFrames );
+			playerPtr->SetItem(idPlayer::NONE);
 			return SRESULT_STAGE( IDLE_WAIT );
 			
 		case IDLE_WAIT:

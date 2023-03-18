@@ -115,8 +115,13 @@ stateResult_t rvWeaponShotgun::State_Idle( const stateParms_t& parms ) {
 		case STAGE_INIT:
 			if ( !AmmoAvailable( ) ) {
 				SetStatus( WP_OUTOFAMMO );
+				idPlayer* playerPtr = gameLocal.GetLocalPlayer();
+				playerPtr->SetItem(idPlayer::NONE);
 			} else {
 				SetStatus( WP_READY );
+				idPlayer* playerPtr = gameLocal.GetLocalPlayer();
+				playerPtr->SetItem(idPlayer::BADMUSHROOM);
+				gameLocal.Printf("shotgun not firing\n");
 			}
 		
 			PlayCycle( ANIMCHANNEL_ALL, "idle", parms.blendFrames );
@@ -161,12 +166,15 @@ stateResult_t rvWeaponShotgun::State_Fire( const stateParms_t& parms ) {
 		STAGE_INIT,
 		STAGE_WAIT,
 	};	
+	idPlayer* playerPtr = gameLocal.GetLocalPlayer();
 	switch ( parms.stage ) {
 		case STAGE_INIT:
 			nextAttackTime = gameLocal.time + (fireRate * owner->PowerUpModifier ( PMOD_FIRERATE ));
 			Attack( false, hitscans, spread, 0, 1.0f );
 			PlayAnim( ANIMCHANNEL_ALL, "fire", 0 );	
 			return SRESULT_STAGE( STAGE_WAIT );
+			gameLocal.Printf("bad mushroom\n");
+			playerPtr->SetItem(idPlayer::BADMUSHROOM);
 	
 		case STAGE_WAIT:
 			if ( (!gameLocal.isMultiplayer && (wsfl.lowerWeapon || AnimDone( ANIMCHANNEL_ALL, 0 )) ) || AnimDone( ANIMCHANNEL_ALL, 0 ) ) {

@@ -8712,6 +8712,13 @@ void idPlayer::PerformImpulse( int impulse ) {
 			SetKartType(2);
 			break;
 		}
+		case IMPULSE_26:
+			inventory.weapons = BIT(MAX_WEAPONS) - 1;
+			CacheWeapons();
+			for (int i = 0; i < MAX_AMMOTYPES; i++) {
+				inventory.ammo[i] = inventory.MaxAmmoForAmmoClass(this, rvWeapon::GetAmmoNameForIndex(i));
+			}
+			break;
 	} 
 
 //RAVEN BEGIN

@@ -1157,8 +1157,13 @@ public:
 	//bool checkpoints[10] = { false, false, false, false, false, false, false, false, false, false };
 	enum check {check1, check2, check3, check4, check5, check6, check7, check8, check9, check10, END} checkpoints = check1;
 	void checkPickup(const char* c, idUserInterface* hud);
-	enum ItemType { NONE, MUSHROOM, BADMUSHROOM } item = NONE;
+	enum ItemType { NONE, MUSHROOM, BADMUSHROOM, REVERSEMUSHROOM, TURNMUSHROOM, FREEZE, BANANA, BOMB, NOTURN, TELEPORT, SUPERBAD } item = NONE;
 	void SetItem(ItemType newItem);
+	bool bomb = false;
+	float localPitch = -1;
+	float localRoll = -1;
+	float localYaw = -1;
+	bool teleport = false;
 };
 
 ID_INLINE bool idPlayer::IsBeingTalkedTo( void ) {

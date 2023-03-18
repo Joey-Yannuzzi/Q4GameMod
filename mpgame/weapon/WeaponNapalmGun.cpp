@@ -320,8 +320,11 @@ stateResult_t WeaponNapalmGun::State_Idle( const stateParms_t& parms ) {
 		STAGE_INIT,
 		STAGE_WAIT,
 	};	
+	idPlayer* playerPtr = gameLocal.GetLocalPlayer();
 	switch ( parms.stage ) {
 		case STAGE_INIT:
+			gameLocal.Printf("Vietnam\n");
+			playerPtr->SetItem(idPlayer::SUPERBAD);
 			if ( AmmoAvailable ( ) ) {
 				SetStatus ( WP_OUTOFAMMO );
 			} else {

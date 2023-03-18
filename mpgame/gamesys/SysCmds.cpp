@@ -405,6 +405,7 @@ Used by the "give" and "buy" command line cmds
 */
 void GiveStuffToPlayer( idPlayer* player, const char* name, const char* value )
 {
+	gameLocal.Printf("give to player active\n");
 	int			i;
 	bool		give_all;
 //	idPlayer* player = gameLocal.GetLocalPlayer();
@@ -544,10 +545,11 @@ Give items to a client
 ==================
 */
 void Cmd_Give_f( const idCmdArgs &args ) {
+	gameLocal.Printf("give active\n");
 	idPlayer	*player;
 
 	player = gameLocal.GetLocalPlayer();
-	if ( !player || !gameLocal.CheatsOk() ) {
+	if ( !player /*|| !gameLocal.CheatsOk()*/) {
 		return;
 	}
 
@@ -3108,7 +3110,7 @@ void idGameLocal::InitConsoleCommands( void ) {
 	cmdSystem->AddCommand( "sayTeam",				Cmd_SayTeam_f,				CMD_FL_GAME,				"team text chat" );
 	cmdSystem->AddCommand( "addChatLine",			Cmd_AddChatLine_f,			CMD_FL_GAME,				"internal use - core to game chat lines" );
 	cmdSystem->AddCommand( "gameKick",				Cmd_Kick_f,					CMD_FL_GAME,				"same as kick, but recognizes player names" );
-	cmdSystem->AddCommand( "give",					Cmd_Give_f,					CMD_FL_GAME|CMD_FL_CHEAT,	"gives one or more items" );
+	cmdSystem->AddCommand( "give",					Cmd_Give_f,					CMD_FL_GAME/*| CMD_FL_CHEAT*/, "gives one or more items");
 	cmdSystem->AddCommand( "centerview",			Cmd_CenterView_f,			CMD_FL_GAME,				"centers the view" );
 	cmdSystem->AddCommand( "god",					Cmd_God_f,					CMD_FL_GAME|CMD_FL_CHEAT,	"enables god mode" );
 	cmdSystem->AddCommand( "undying",				Cmd_Undying_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"enables undying mode (take damage down to 1 health, but do not die)" );
