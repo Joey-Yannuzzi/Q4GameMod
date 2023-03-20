@@ -2074,6 +2074,19 @@ void idPlayer::Spawn( void ) {
 //RITUAL END
 
 	itemCosts = static_cast< const idDeclEntityDef * >( declManager->FindType( DECL_ENTITYDEF, "ItemCostConstants", false ) );
+
+	switch (state)
+	{
+	case LIGHT:
+		mphud->SetStateString("kartType", "light");
+		break;
+	case MEDIUM:
+		mphud->SetStateString("kartType", "medium");
+		break;
+	case HEAVY:
+		mphud->SetStateString("kartType", "heavy");
+		break;
+	}
 }
 
 /*
@@ -14331,14 +14344,17 @@ void idPlayer::SetKartType(int state)
 	case 0:
 		gameLocal.Printf("light kart\n");
 		idPlayer::state = LIGHT;
+		mphud->SetStateString("kartType", "light");
 		break;
 	case 1:
 		gameLocal.Printf("medium kart\n");
 		idPlayer::state = MEDIUM;
+		mphud->SetStateString("kartType", "medium");
 		break;
 	case 2:
 		gameLocal.Printf("heavy kart\n");
 		idPlayer::state = HEAVY;
+		mphud->SetStateString("kartType", "heavy");
 		break;
 	}
 }
